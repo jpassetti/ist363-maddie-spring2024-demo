@@ -1,95 +1,63 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+import { useState } from "react";
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+import { motion, AnimatePresence } from "framer-motion";
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+import About from "../components/About";
+import Contact from "../components/Contact";
+import Homepage from "../components/Homepage";
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+const pages = [
+ {
+  title: "Homepage",
+  component: <Homepage />,
+  backgroundColor: "red",
+ },
+ {
+  title: "About",
+  component: <About />,
+  backgroundColor: "green",
+ },
+ {
+  title: "Contact",
+  component: <Contact />,
+  backgroundColor: "lightblue",
+ },
+];
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
-}
+const Mainpage = () => {
+ const [activePageIndex, setActivePageIndex] = useState(0);
+ return (
+  <div>
+   <nav>
+    {pages.map((page, index) => {
+     return (
+      <button
+       key={index}
+       onClick={() => {
+        setActivePageIndex(index);
+       }}
+      >
+       {page.title}
+      </button>
+     );
+    })}
+   </nav>
+   <main>
+    <AnimatePresence>
+     <motion.div
+      key={activePageIndex}
+      initial={{ x: 300, opacity: 0 }}
+      animate={{ x: 0, opacity: 1, transition: { delay: 1 } }}
+      exit={{ x: -300, opacity: 0 }}
+      style={{ backgroundColor: pages[activePageIndex].backgroundColor }}
+     >
+      {pages[activePageIndex].component}
+     </motion.div>
+    </AnimatePresence>
+   </main>
+  </div>
+ );
+};
+export default Mainpage;

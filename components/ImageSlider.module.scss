@@ -1,0 +1,13 @@
+.imageSlider {
+ background-color: limegreen;
+ aspect-ratio: 16 / 9;
+ width: 400px;
+ overflow-x: scroll;
+ &__list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  transition: all 1s;
+ }
+}
